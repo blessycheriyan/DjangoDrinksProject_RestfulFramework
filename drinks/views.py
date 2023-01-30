@@ -13,14 +13,15 @@ def drink_list(request, format=None):
     if request.method == 'GET':
         drinks = Drink.objects.all()
         serializer = DrinkSerializer(drinks, many=True)
+        print({"List of Drinks :": serializer.data})
         # return JsonResponse({'List of Drinks Available ': serializer.data})
-
         return Response({'List of Drinks Available ': serializer.data})
     if request.method == 'POST':
         serializer = DrinkSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            print("Created Successfully")
+            return Response(serializer.data)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -36,8 +37,10 @@ def drink_details(request, id, format=None):
         serializer = DrinkSerializer(drink, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            print("Updated Successfully with", +id)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         drink.delete()
+        print("Deleted Successfully with", +id)
         return Response(status=status.HTTP_204_NO_CONTENT)

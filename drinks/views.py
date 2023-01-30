@@ -42,6 +42,6 @@ def drink_details(request, id, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
     
-        #drink.delete()
+        drink.delete()
         print("Deleted Successfully with", +id)
         return Response(status=status.HTTP_204_NO_CONTENT)
